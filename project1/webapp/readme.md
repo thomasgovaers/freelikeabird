@@ -3,7 +3,7 @@
 **Video Demo of the webapplication:**  https://youtu.be/R6jUsanKhL0
 
 **Description:**
-
+Launch with command: flask run in the webapp directory.
 I made a blog website with a frontpage, where users can post about their latest adventures and discoveries. This app is meant to create community, with the old internet feel. Users can leave comments on each others blogs and create a bio for themselves. Admins can keep an eye out and delete users and posts if the need arises. There is also a profanityfilter active to keep it all civil. 
 I've used a website called coolor.co to find some matching colours, but to be honest: esthetics is not my strongsuit. 
 
@@ -63,6 +63,7 @@ Behind the scenes I've also made a .sql file that resets the database and a .sql
 Requirements.txt holds all the dependencies and will tell the server to install the different programs i've used to run this website. 
 
 ## 
+
 
 
 
