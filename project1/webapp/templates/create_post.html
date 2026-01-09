@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Create New Post
+{% endblock %}
+
+
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+{% endblock %}
+
+{% block main %}
+<h1 class="mb-4">Create New Blog Post</h1>
+<form id="post-form" method="POST" action="{{ url_for('create_post') }}">
+    <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" name="title" required>
+    </div>
+    <div class="mb-3">
+        <label for="body" class="form-label">Body</label>
+        <textarea class="form-control" id="editor" name="body" rows="5" required></textarea>
+    </div>
+    <button id="publish-btn" type="submit" class="btn btn-primary mt-3">Publish</button>
+</form>
+<script>
+const form = document.getElementById('post-form');
+const editorEl = document.getElementById('editor');
+let easyMDE = null;
+try {
+    easyMDE = new EasyMDE({ element: editorEl });
+} catch (e) {
+    console.error('EasyMDE init error', e);
+}
+
+// Sync EasyMDE content to the textarea on submit and log for debugging
+if (form) {
+    form.addEventListener('submit', function (e) {
+        try {
+            if (easyMDE && typeof easyMDE.value === 'function') {
+                editorEl.value = easyMDE.value();
+            }
+        } catch (err) {
+            console.error('Error syncing editor content', err);
+        }
+        console.log('Submitting post form', {
+            title: document.getElementById('title')?.value,
+            bodyPreview: (editorEl.value || '').slice(0, 120)
+        });
+        // allow normal form submission to proceed
+    });
+
+    // Extra click handler on publish button to ensure it triggers
+    const pubBtn = document.getElementById('publish-btn');
+    if (pubBtn) {
+        pubBtn.addEventListener('click', function () {
+            console.log('Publish button clicked');
+            try {
+                if (easyMDE && typeof easyMDE.value === 'function') {
+                    editorEl.value = easyMDE.value();
+                }
+            } catch (err) {
+                console.error('Error syncing on click', err);
+            }
+            // let the form submit normally
+        });
+    }
+}
+</script>
+{% endblock %}

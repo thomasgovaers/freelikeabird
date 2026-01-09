@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Edit Bio
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+{% endblock %}
+
+{% block main %}
+    <h1>Edit Your Bio</h1>
+    <form method="post" enctype="multipart/form-data">
+        <label for="bio_text">Bio:</label><br>
+        <textarea id="editor" name="bio_text" rows="4" cols="50">{% if bio_info %}{{ bio_info.bio_text }}{% endif %}</textarea><br><br>
+        
+        <label for="profile_pic">Profile Picture:</label><br>
+        <input type="file" id="profile_pic" name="profile_pic" accept="image/*"><br><br>
+        
+        <input class="btn btn-primary mb-3" type="submit" value="Update Bio">
+    </form>
+
+    
+<script>
+    // TEXT EDITOR SETUP
+    const form = document.querySelector('form');
+    const editorEl = document.getElementById('editor');
+    let easyMDE;
+
+    // Initialize EasyMDE
+    if (editorEl) {
+        easyMDE = new EasyMDE({
+            element: editorEl,
+            minHeight: "200px",
+            maxHeight: "400px"
+        });
+    }
+
+</script>
+{% endblock %}

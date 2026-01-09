@@ -1,0 +1,42 @@
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS posts;
+DROP TABLE IF EXISTS bios;
+DROP TABLE IF EXISTS comments;
+
+CREATE TABLE users ( 
+    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    username TEXT NOT NULL UNIQUE, 
+    hash TEXT NOT NULL, 
+    is_admin INTEGER DEFAULT 0
+    );
+
+CREATE TABLE posts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    user_id INTEGER NOT NULL, 
+    title TEXT NOT NULL, 
+    body TEXT NOT NULL, 
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    FOREIGN KEY(user_id) 
+    REFERENCES users(id)
+    );
+
+CREATE TABLE bios (
+    user_id INTEGER PRIMARY KEY,
+    bio_text TEXT DEFAULT '',
+    profile_pic_url TEXT DEFAULT "/static/profile_pics/4_default.png",
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+CREATE TABLE comments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    post_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    comment TEXT NOT NULL CHECK (length(comment) <= 1000),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY(post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+

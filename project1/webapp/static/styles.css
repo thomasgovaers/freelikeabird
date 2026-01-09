@@ -1,0 +1,33 @@
+/* Error messages appear in red via Bootstrap's alert-danger class */
+.alert-danger {
+    color: #FF1053;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+html, body {
+    background-color: #90D7FF;
+}
+
+button {
+    @apply btn btn-primary;
+}
+
+.bg-deepspaceblue {
+    background-color: #003253; 
+}
+
+p {
+    font-size: 1.1em;
+    line-height: 1.6;
+
+}
+
+
+
+
+footer,
+footer p,
+footer a {
+    color: #D3C0CD;
+}   

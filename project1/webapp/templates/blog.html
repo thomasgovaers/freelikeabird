@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{ post.title }}
+{% endblock %}
+
+{% block main %}
+
+<div class="container mt-5">
+    <h1 class="mb-4">{{ post.title }}</h1>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-secondary">
+                    {{ post.timestamp }}
+                </span>
+            </div>
+            <hr class="my-3">
+
+            <div class="text-muted small mb-3">
+                By 
+                <a href="{{ url_for('bio', user_name=post.username) }}" class="text-decoration-none fw-semibold">
+                    {{ post.username }}
+                </a>
+            </div>
+            <div class="post-body mb-3">
+                {{ post.body|markdown|safe }}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<h3>Comments</h3>
+
+{% if session.get("user_id") %}
+<p>Posting comment as {{ session.get("username") }}</p>
+<form method="POST" action="{{ url_for('add_comment', post_id=post.id) }}">
+    <textarea name="comment" class="form-control mb-2" required></textarea>
+    <button class="btn btn-primary">Post Comment</button>
+</form>
+{% else %}
+<p>You must be logged in to comment.</p>
+{% endif %}
+
+<hr>
+
+{% for c in comments %}
+<div class="card mb-2">
+    <div class="card-body">
+        <strong><a href="{{ url_for('bio', user_name=c.username) }}" class="text-decoration-none">{{ c.username }}</a></strong>
+        <small class="text-muted">{{ c.created_at }}</small>
+        <p>{{ c.comment }}</p>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
